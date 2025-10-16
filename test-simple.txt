@@ -1,0 +1,22 @@
+Section A: Personal Information
+
+1. What is your name?
+
+2. What is your email address?
+
+3. How old are you?
+
+Section B: Preferences
+
+4. Which color do you prefer?
+( ) Red
+( ) Blue
+( ) Green
+
+5. What are your hobbies? (Select all that apply)
+[ ] Reading
+[ ] Sports
+[ ] Music
+[ ] Gaming
+
+6. Please describe your ideal vacation.

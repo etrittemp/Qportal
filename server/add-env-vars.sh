@@ -1,0 +1,23 @@
+#!/bin/bash
+# Add environment variables to Vercel
+vercel env add SUPABASE_URL production << HEREDOC
+https://gzzgsyeqpnworczllraa.supabase.co
+HEREDOC
+
+vercel env add SUPABASE_ANON_KEY production << HEREDOC
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6emdzeWVxcG53b3JjemxscmFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MDA3MzMsImV4cCI6MjA3NTQ3NjczM30.dgq_kSn5jVFbFEncrLfSp0idETluFaPWV1aUnxwNE0Q
+HEREDOC
+
+vercel env add SUPABASE_SERVICE_KEY production << HEREDOC
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6emdzeWVxcG53b3JjemxscmFhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTkwMDczMywiZXhwIjoyMDc1NDc2NzMzfQ.EBn8ZlopUc5hQrMO1W5f8JXu-BxMDulkl42dgP6R2_o
+HEREDOC
+
+vercel env add JWT_SECRET production << HEREDOC
+1e7834c8b1215d707c29efd1ca78cd04be4855ee36ea0f87a0e53400b6444dd9
+HEREDOC
+
+vercel env add NODE_ENV production << HEREDOC
+production
+HEREDOC
+
+echo "✅ All environment variables added!"
