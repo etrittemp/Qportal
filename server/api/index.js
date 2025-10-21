@@ -6,7 +6,8 @@ import authRoutes from '../src/routes/auth.js';
 import responseRoutes from '../src/routes/responses.js';
 import adminRoutes from '../src/routes/admin.js';
 import questionnaireRoutes from '../src/routes/questionnaires.js';
-import fileUploadRoutes from '../src/routes/file-upload.js';
+// Temporarily comment out file-upload to test if it's causing the issue
+// import fileUploadRoutes from '../src/routes/file-upload.js';
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/responses', responseRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/questionnaires', questionnaireRoutes);
-app.use('/api/file-upload', fileUploadRoutes);
+// app.use('/api/file-upload', fileUploadRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
