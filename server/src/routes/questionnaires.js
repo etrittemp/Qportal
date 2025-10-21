@@ -350,23 +350,41 @@ router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
+    const { force } = req.query;
 
     // Check if there are responses linked to this questionnaire
     const { data: responses, error: rError } = await supabase
       .from('questionnaire_responses')
       .select('id')
-      .eq('questionnaire_id', id)
-      .limit(1);
+      .eq('questionnaire_id', id);
 
     if (rError) {
       console.error('Check responses error:', rError);
       return res.status(500).json({ error: 'Failed to check responses' });
     }
 
-    if (responses && responses.length > 0) {
+    const responseCount = responses?.length || 0;
+
+    // If there are responses and force is not set, return the count for confirmation
+    if (responseCount > 0 && force !== 'true') {
       return res.status(400).json({
-        error: 'Cannot delete questionnaire with existing responses. Archive it instead.'
+        error: 'Questionnaire has responses',
+        responseCount,
+        requiresConfirmation: true
       });
+    }
+
+    // Delete all responses first if force is true
+    if (responseCount > 0 && force === 'true') {
+      const { error: deleteResponsesError } = await supabase
+        .from('questionnaire_responses')
+        .delete()
+        .eq('questionnaire_id', id);
+
+      if (deleteResponsesError) {
+        console.error('Delete responses error:', deleteResponsesError);
+        return res.status(500).json({ error: 'Failed to delete questionnaire responses' });
+      }
     }
 
     // Delete questionnaire (cascade will delete sections and questions)
@@ -380,7 +398,11 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
       return res.status(500).json({ error: 'Failed to delete questionnaire' });
     }
 
-    res.json({ success: true, message: 'Questionnaire deleted successfully' });
+    res.json({
+      success: true,
+      message: 'Questionnaire deleted successfully',
+      deletedResponses: responseCount
+    });
   } catch (error) {
     console.error('Delete questionnaire error:', error);
     res.status(500).json({ error: 'Failed to delete questionnaire' });

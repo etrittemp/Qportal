@@ -182,17 +182,33 @@ const QuestionnaireManagement: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm(t('confirmDeleteQuestionnaire'))) {
-      return;
-    }
-
     try {
+      // First attempt - check if there are responses
       await questionnaireAPI.delete(id);
       showToast.success(t('deletedSuccessfully'));
       loadQuestionnaires();
     } catch (err: any) {
       console.error('Error deleting:', err);
-      showToast.error(err.response?.data?.error || t('failedToDelete'));
+
+      // If there are responses, ask for confirmation
+      if (err.response?.data?.requiresConfirmation) {
+        const responseCount = err.response.data.responseCount;
+        const message = `This questionnaire has ${responseCount} response${responseCount > 1 ? 's' : ''}.\n\nDeleting it will permanently remove:\n- The questionnaire\n- All ${responseCount} response${responseCount > 1 ? 's' : ''}\n- All associated data\n\nThis action CANNOT be undone!\n\nAre you sure you want to continue?`;
+
+        if (window.confirm(message)) {
+          try {
+            // Second attempt with force=true
+            await questionnaireAPI.delete(id, true);
+            showToast.success(t('deletedSuccessfully'));
+            loadQuestionnaires();
+          } catch (deleteErr: any) {
+            console.error('Error force deleting:', deleteErr);
+            showToast.error(deleteErr.response?.data?.error || t('failedToDelete'));
+          }
+        }
+      } else {
+        showToast.error(err.response?.data?.error || t('failedToDelete'));
+      }
     }
   };
 

@@ -59,7 +59,7 @@ export const responsesAPI = {
   },
 
   create: async (data: any) => {
-    const response = await api.post('/api/responses', data);
+    const response = await api.post('/api/responses/submit', data);
     return response.data;
   },
 
@@ -124,8 +124,8 @@ export const questionnaireAPI = {
     return response.data;
   },
 
-  delete: async (id: string) => {
-    const response = await api.delete(`/api/questionnaires/${id}`);
+  delete: async (id: string, force: boolean = false) => {
+    const response = await api.delete(`/api/questionnaires/${id}${force ? '?force=true' : ''}`);
     return response.data;
   },
 
