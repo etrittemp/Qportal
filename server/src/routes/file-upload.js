@@ -1,8 +1,8 @@
 import express from 'express';
 import multer from 'multer';
 import mammoth from 'mammoth';
-import pdfParse from 'pdf-parse';
-import { supabase } from '../index.js';
+import pdfParse from '../utils/pdf-parser.js';
+import { supabase } from '../supabase.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();

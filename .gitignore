@@ -64,3 +64,8 @@ uploads/
 
 # CI/CD
 .github/workflows/*.log
+
+# Test files and scripts
+server/test-login.json
+server/set-env-vars.sh
+*.test.json

@@ -1,5 +1,5 @@
 import express from 'express';
-import { supabase } from '../index.js';
+import { supabase } from '../supabase.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import { ExcelExportService } from '../services/excelExport.js';
 

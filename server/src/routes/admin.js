@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import { supabase } from '../index.js';
+import { supabase } from '../supabase.js';
 import { authenticateToken, requireSuperuser } from '../middleware/auth.js';
 
 const router = express.Router();
