@@ -1,4 +1,5 @@
 // Serverless function handler for Vercel
+import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -40,5 +41,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Export handler function that wraps Express
-export default (req, res) => app(req, res);
+// Export serverless-wrapped Express app
+export default serverless(app);
